@@ -44,6 +44,7 @@
     landmarkPocJobNoList[ updatejob_key ] = landmark_updateJob[updatejob_key];
   }
   landmarkPocMRTList = {{地標POC測試_MRT列表}};
+  landmarkPocNotMRTList = {{地標POC測試_非MRT列表}}
   ga('create', 'UA-165589325-1', 'auto');
   
   if( landmark_loadtime * landmark_intervalms > 4000 ){
