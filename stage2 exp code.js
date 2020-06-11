@@ -8,15 +8,44 @@
       return Math.round(num/10) * 10 ;
     }
   }
+
   var landmark_blacklist;
   var landmarkPocClassifier ;
   var joblistItem ;
   var landmarkStart;
   var landmarkEnd;
-  var nearStation,nearStationDist,landmark_changelink,landmark_newJobsource;
+  var nearStation,nearStationDist,landmark_changelink,landmark_newJobsource,landmarkNewTag;
   var landmarkPocJobNoList;
   var landmark_updateJob;
   var landmarkPocMRTList;
+
+  function replaceContent(group){
+    landmarkNewTag = document.createElement('span');
+    if (source_poc = "MRT"){
+      landmarkNewTag.innerText = "距捷運" + nearStation + "站" + landmarkRound( nearStationDist ) + "公尺";
+    }else{
+      landmarkNewTag.innerText = "距" + nearStation + landmarkRound( nearStationDist ) + "公尺";
+    }
+    landmarkNewTag.setAttribute('class' , 'b-tag--default');
+    var landmark_joblisttag = joblistItem[i].getElementsByClassName('job-list-tag');
+    if ( landmark_joblisttag.length == 0 ){
+      var landmark_joblisttag_element = document.createElement('div');
+      landmark_joblisttag_element.setAttribute('class' , 'job-list-tag b-content');
+      joblistItem[i].getElementsByClassName('b-block__left')[0].appendChild(landmark_joblisttag_element);
+    }
+    var landmark_greytags = joblistItem[i].getElementsByClassName('job-list-tag')[0].querySelectorAll('.b-tag--default');
+    if( landmark_greytags[ landmark_greytags.length - 1 ].innerText.search('公尺') != -1 ){
+      continue;
+    }
+    joblistItem[i].getElementsByClassName('job-list-tag')[0].appendChild(landmarkNewTag);
+    landmark_changelink[0].setAttribute('href' , landmark_newJobsource + group );
+    ga('send', {
+      hitType: 'event',
+      eventCategory: '地標POC',
+      eventAction: 'impression_Group'+ group,
+      eventLabel: jobNo
+    });     
+  }
   
   try{
   landmark_blacklist = [];
@@ -83,56 +112,25 @@
     }else{
       continue;
     }
-  
-
-    function replaceContent(jobNo,nearStation,nearStationDist,source_poc,joblistItem,landmark_changelink,landmark_newJobsource,group,jobsource){
-        var landmarkNewTag = document.createElement('span');
-        if (source_poc = "MRT"){
-          landmarkNewTag.innerText = "距捷運" + nearStation + "站" + landmarkRound( nearStationDist ) + "公尺";
-        }else{
-          landmarkNewTag.innerText = "距" + nearStation + landmarkRound( nearStationDist ) + "公尺";
-        }
-        landmarkNewTag.setAttribute('class' , 'b-tag--default');
-        var landmark_joblisttag = joblistItem[i].getElementsByClassName('job-list-tag');
-        if ( landmark_joblisttag.length == 0 ){
-          var landmark_joblisttag_element = document.createElement('div');
-          landmark_joblisttag_element.setAttribute('class' , 'job-list-tag b-content');
-          joblistItem[i].getElementsByClassName('b-block__left')[0].appendChild(landmark_joblisttag_element);
-        }
-        var landmark_greytags = joblistItem[i].getElementsByClassName('job-list-tag')[0].querySelectorAll('.b-tag--default');
-        if( landmark_greytags[ landmark_greytags.length - 1 ].innerText.search('公尺') != -1 ){
-          continue;
-        }
-        joblistItem[i].getElementsByClassName('job-list-tag')[0].appendChild(landmarkNewTag);
-        landmark_changelink[0].setAttribute('href' , landmark_newJobsource + group );
-        ga('send', {
-          hitType: 'event',
-          eventCategory: '地標POC',
-          eventAction: 'impression_Group'+ group,
-          eventLabel: jobNo
-        });
-      }
-
-    
 
     switch (String(landmarkPocClassifier)+source_poc){
       case "1MRT" :
-      replaceContent(jobNo,nearStation,nearStationDist,source_poc,joblistItem,landmark_changelink,landmark_newJobsource,"AA");
+      replaceContent("AA");
         break;
       case "2MRT" :
-      replaceContent(jobNo,nearStation,nearStationDist,source_poc,joblistItem,landmark_changelink,landmark_newJobsource,"B");        
+      replaceContent("B");        
         break;
       case "0MRT"  :
-      replaceContent(jobNo,nearStation,nearStationDist,source_poc,joblistItem,landmark_changelink,landmark_newJobsource,"C");
+      replaceContent("C");
         break
       case "1Other" :
-      replaceContent(jobNo,nearStation,nearStationDist,source_poc,joblistItem,landmark_changelink,landmark_newJobsource,"D");
+      replaceContent("D");
         break;
       case "2Other" :
-      replaceContent(jobNo,nearStation,nearStationDist,source_poc,joblistItem,landmark_changelink,landmark_newJobsource,"E");
+      replaceContent("E");
         break;
       case "0Other" :
-      replaceContent(jobNo,nearStation,nearStationDist,source_poc,joblistItem,landmark_changelink,landmark_newJobsource,"F");
+      replaceContent("F");
         break;
         default :
         ga('send', {
