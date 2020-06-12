@@ -6,6 +6,7 @@
       return Math.round(num/10) * 10 ;
     }
   }
+  //kenny
 
   var landmark_blacklist;
   var landmarkPocClassifier ;
