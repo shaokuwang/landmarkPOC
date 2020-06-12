@@ -1,13 +1,4 @@
 <script type=text/javascript>
-  function landmarkRound( num ){
-    if( Math.round(num/10) * 10 == 0) { 
-      return 5 ;
-    }else{
-      return Math.round(num/10) * 10 ;
-    }
-  }
-  //kenny
-
   var landmark_blacklist;
   var landmarkPocClassifier ;
   var joblistItem ;
@@ -20,11 +11,7 @@
 
   function replaceContent(group){
     landmarkNewTag = document.createElement('span');
-    if (source_poc = "MRT"){
-      landmarkNewTag.innerText = "距捷運" + nearStation + "站" + landmarkRound( nearStationDist ) + "公尺";
-    }else{
-      landmarkNewTag.innerText = "距" + nearStation + landmarkRound( nearStationDist ) + "公尺";
-    }
+    landmarkNewTag.innerText = "距" + nearStation + nearStationDist + "公尺";
     landmarkNewTag.setAttribute('class' , 'b-tag--default');
     var landmark_joblisttag = joblistItem[i].getElementsByClassName('job-list-tag');
     if ( landmark_joblisttag.length == 0 ){
