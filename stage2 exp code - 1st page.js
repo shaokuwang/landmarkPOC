@@ -72,7 +72,7 @@
     */
     landmarkPocMRTList = {{地標POC測試_MRT列表}};
     landmarkPocOtherList = {{地標POC測試_其他地標列表}};
-    ga('create', 'UA-165589325-1', 'auto');
+    ga('create', 'UA-165589325-3', 'auto');
 
     if( landmark_loadtime * landmark_intervalms > 4000 ){
       return;
