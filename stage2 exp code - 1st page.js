@@ -4,7 +4,7 @@
   var joblistItem ;
   var landmarkStart;
   var landmarkEnd;
-  var nearStation,nearStationDist,landmark_changelink,landmark_newJobsource,landmarkNewTag;
+  var nearStation,nearStationDist,landmark_changelink,landmark_newJobsource,landmarkNewTag,source_poc,landmark_type;
   var landmarkPocJobNoList;
   var landmark_updateJob;
   var landmarkPocMRTList;
@@ -24,7 +24,7 @@
       continue;
     }
     joblistItem[i].getElementsByClassName('job-list-tag')[0].appendChild(landmarkNewTag);
-    landmark_changelink[0].setAttribute('href' , landmark_newJobsource + group );
+    landmark_changelink[0].setAttribute('href' , landmark_newJobsource + group + landmark_type);
     ga('send', {
       hitType: 'event',
       eventCategory: '地標POC',
@@ -34,7 +34,7 @@
   }
   
   function impressionOnly(group){
-    landmark_changelink[0].setAttribute('href' , landmark_newJobsource + group );
+    landmark_changelink[0].setAttribute('href' , landmark_newJobsource + group + landmark_type);
     ga('send', {
       hitType: 'event',
       eventCategory: '地標POC',
@@ -42,6 +42,22 @@
       eventLabel: jobNo
     });     
 
+  }
+
+  function landmarkType( name ){
+    var l_type = '&landType=';
+    if (source_poc == 'MRT'){
+      l_type += 'R';
+    }else if( ( name.search( '圖書' ) != -1 ) || (name.search( '文化中心' ) != -1 ) || (name.search( '文化服務所' ) != -1 ) ){
+      l_type += 'L';
+    }else if ( ( name.search( '市政府' ) != -1 ) || (name.search( '縣政府' ) != -1 ) || (name.search( '市政中心' ) != -1 ) || (name.search( '行政中心' ) != -1 ) ){
+      l_type += 'C';
+    }else if( ( name.search( '公所' ) != -1 )){
+      l_type += 'M';
+    }else{
+      l_type += 'H';
+    }
+    return l_type;
   }
 
   try{
@@ -95,8 +111,9 @@
             if( joblistItem[i].dataset.jobsource == 'hotjob_chr' || landmark_blacklist.indexOf(jobNo) != -1){
               continue;
             }
-            var source_poc = "MRT";
+            source_poc = "MRT";
             nearStation = landmarkPocMRTList [ landmarkPocJobNoList_MRT[jobNo][1] ];
+            landmark_type = landmarkType( nearStation );
             nearStationDist = landmarkPocJobNoList_MRT[jobNo][0];
             landmark_changelink = joblistItem[i].querySelectorAll('.js-job-link');
             landmark_newJobsource = landmark_changelink[0].getAttribute('href').split('jobsource=')[0] + 'jobsource=landmarkPOC_';
@@ -104,8 +121,9 @@
             if( joblistItem[i].dataset.jobsource == 'hotjob_chr' || landmark_blacklist.indexOf(jobNo) != -1){
               continue;
             }
-            var source_poc = "Other";
+            source_poc = "Other";
             nearStation = landmarkPocOtherList [ landmarkPocJobNoList_other[jobNo][1] ];
+            landmark_type = landmarkType( nearStation );
             nearStationDist = landmarkPocJobNoList_other[jobNo][0];
             landmark_changelink = joblistItem[i].querySelectorAll('.js-job-link');
             landmark_newJobsource = landmark_changelink[0].getAttribute('href').split('jobsource=')[0] + 'jobsource=landmarkPOC_';
