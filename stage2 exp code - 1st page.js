@@ -5,22 +5,26 @@
   var landmarkStart;
   var landmarkEnd;
   var nearStation,nearStationDist,landmark_changelink,landmark_newJobsource,landmarkNewTag,source_poc,landmark_type;
-  var landmarkPocJobNoList;
+  var landmarkPocJobNoList_MRT;
+  var landmarkPocJobNoList_other
   var landmark_updateJob;
   var landmarkPocMRTList;
+  var landmark_joblisttag,landmark_greytags
 
-  function replaceContent(group){
+  function replaceContent(group, i){
     landmarkNewTag = document.createElement('span');
     landmarkNewTag.innerText = "距" + nearStation + nearStationDist + "公尺";
     landmarkNewTag.setAttribute('class' , 'b-tag--default');
-    var landmark_joblisttag = joblistItem[i].getElementsByClassName('job-list-tag');
+    landmark_joblisttag = joblistItem[i].getElementsByClassName('job-list-tag');
     if ( landmark_joblisttag.length == 0 ){
       var landmark_joblisttag_element = document.createElement('div');
       landmark_joblisttag_element.setAttribute('class' , 'job-list-tag b-content');
       joblistItem[i].getElementsByClassName('b-block__left')[0].appendChild(landmark_joblisttag_element);
     }
-    var landmark_greytags = joblistItem[i].getElementsByClassName('job-list-tag')[0].querySelectorAll('.b-tag--default');
+    landmark_greytags = joblistItem[i].getElementsByClassName('job-list-tag')[0].querySelectorAll('.b-tag--default');
+    console.log("還沒置換內容ㄛ");
     if( landmark_greytags[ landmark_greytags.length - 1 ].innerText.search('公尺') != -1 ){
+      console.log("有置換內容");
       joblistItem[i].getElementsByClassName('job-list-tag')[0].appendChild(landmarkNewTag);
       landmark_changelink[0].setAttribute('href' , landmark_newJobsource + group + landmark_type);
       ga('send', {
@@ -80,26 +84,22 @@
     document.getElementsByTagName('head')[0].appendChild(landmark_el2);
   }catch(e){}
 
-  try{
-    joblistItem = document.querySelectorAll('.job-list-item');
-    landmarkStart = 0;
-    landmarkEnd = joblistItem.length;
-    landmarkPocJobNoList_MRT = landmark_MRT_jobs;
-    landmarkPocJobNoList_other = landmark_Other_jobs;
-    /*
-    for( updatejob_key in landmark_updateJob ){
-      landmarkPocJobNoList_MRT[ updatejob_key ] = landmark_updateJob[updatejob_key];
-    }
-    */
-    landmarkPocMRTList = {{地標POC測試_MRT列表}};
-    landmarkPocOtherList = {{地標POC測試_其他地標列表}};
-    ga('create', 'UA-165589325-3', 'auto');
-
-    
-  }catch(e){}
   
   function landmark_show(){
     try{
+      joblistItem = document.querySelectorAll('.job-list-item');
+      landmarkStart = 0;
+      landmarkEnd = joblistItem.length;
+      landmarkPocJobNoList_MRT = landmark_MRT_jobs;
+      landmarkPocJobNoList_other = landmark_Other_jobs;
+      /*
+      for( updatejob_key in landmark_updateJob ){
+        landmarkPocJobNoList_MRT[ updatejob_key ] = landmark_updateJob[updatejob_key];
+      }
+      */
+      landmarkPocMRTList = {{地標POC測試_MRT列表}};
+      landmarkPocOtherList = {{地標POC測試_其他地標列表}};
+      ga('create', 'UA-165589325-3', 'auto');
       
       if( landmark_loadtime * landmark_intervalms > 4000 ){
       return;
@@ -141,16 +141,16 @@
 
         switch (String(landmarkPocClassifier)+source_poc){
           case "1MRT" :
-          replaceContent("AA");
+          replaceContent("AA",i);
             break;
           case "2MRT" :
-          replaceContent("B");        
+          replaceContent("B",i);        
             break;
           case "0MRT"  :
           impressionOnly("C");
             break
           case "1Other" :
-          replaceContent("D");
+          replaceContent("D",i);
             break;
           case "2Other" :
           impressionOnly("E");
