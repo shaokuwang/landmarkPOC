@@ -69,10 +69,14 @@
 
   
   try{
-    var landmark_el = document.createElement('script');
-    landmark_el.src = 'https://www.104.com.tw/jobs/search/static/preserve/jobnolist_0615.js';
-    landmark_el.async = false;
-    document.getElementsByTagName('head')[0].appendChild(landmark_el);
+    var landmark_el1 = document.createElement('script');
+    var landmark_el2 = document.createElement('script');
+    landmark_el1.src = 'https://shaokuwang.github.io/landmarkPOC/nearMRT_joblist.js';
+    landmark_el1.async = false;
+    landmark_el2.src = 'https://shaokuwang.github.io/landmarkPOC/nearOtherLandmark_joblist.js';
+    landmark_el2.async = false;
+    document.getElementsByTagName('head')[0].appendChild(landmark_el1);
+    document.getElementsByTagName('head')[0].appendChild(landmark_el2);
   }catch(e){}
 
   try{
