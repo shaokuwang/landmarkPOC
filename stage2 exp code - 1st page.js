@@ -21,16 +21,17 @@
     }
     var landmark_greytags = joblistItem[i].getElementsByClassName('job-list-tag')[0].querySelectorAll('.b-tag--default');
     if( landmark_greytags[ landmark_greytags.length - 1 ].innerText.search('公尺') != -1 ){
-      continue;
-    }
-    joblistItem[i].getElementsByClassName('job-list-tag')[0].appendChild(landmarkNewTag);
-    landmark_changelink[0].setAttribute('href' , landmark_newJobsource + group + landmark_type);
-    ga('send', {
+      joblistItem[i].getElementsByClassName('job-list-tag')[0].appendChild(landmarkNewTag);
+      landmark_changelink[0].setAttribute('href' , landmark_newJobsource + group + landmark_type);
+      ga('send', {
       hitType: 'event',
       eventCategory: '地標POC',
       eventAction: 'impression_Group'+ group,
       eventLabel: jobNo
-    });     
+    });
+    }
+    
+         
   }
   
   function impressionOnly(group){
@@ -94,15 +95,15 @@
     landmarkPocOtherList = {{地標POC測試_其他地標列表}};
     ga('create', 'UA-165589325-3', 'auto');
 
-    if( landmark_loadtime * landmark_intervalms > 4000 ){
-      return;
-    }
+    
   }catch(e){}
   
   function landmark_show(){
     try{
       
-      
+      if( landmark_loadtime * landmark_intervalms > 4000 ){
+      return;
+    }
       
       
     
