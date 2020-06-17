@@ -32,6 +32,12 @@
       eventAction: 'impression_Group'+ group,
       eventLabel: jobNo
     });
+      ga('send', {
+      hitType: 'event',
+      eventCategory: '地標POC_地標類別',
+      eventAction: 'landType_'+ landmark_type.slice(-1),
+      eventLabel: jobNo
+      });
     }
     
          
@@ -44,8 +50,13 @@
       eventCategory: '地標POC',
       eventAction: 'impression_Group'+ group,
       eventLabel: jobNo
-    });     
-
+    });
+    ga('send', {
+    hitType: 'event',
+    eventCategory: '地標POC_地標類別',
+    eventAction: 'landType_'+ landmark_type.slice(-1),
+    eventLabel: jobNo
+    });
   }
 
   function landmarkType( name ){
@@ -164,11 +175,17 @@
             eventAction: 'Error',
             eventLabel: jobNo
           });
+          ga('send', {
+          hitType: 'event',
+          eventCategory: '地標POC_地標類別',
+          eventAction: 'Error',
+          eventLabel: jobNo
+          });
           break;
         }
       }
     }catch(e){
-      console.log(e)
+      //console.log(e)
     }
   }
   
@@ -177,6 +194,7 @@
   var landmark_interval = setInterval( function(){
     if( typeof(landmark_MRT_jobs) != 'undefined' && typeof(landmark_Other_jobs) != 'undefined'){
       landmark_show();
+      landmark_loadtime = 0;
       clearInterval(landmark_interval);
     }else{
       landmark_loadtime += 1;
