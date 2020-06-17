@@ -9,7 +9,8 @@
   var landmarkPocJobNoList_other
   var landmark_updateJob;
   var landmarkPocMRTList;
-  var landmark_joblisttag,landmark_greytags
+  var landmark_joblisttag,landmark_greytags;
+  var jobNo;
 
   function replaceContent(group, i){
     landmarkNewTag = document.createElement('span');
@@ -22,9 +23,7 @@
       joblistItem[i].getElementsByClassName('b-block__left')[0].appendChild(landmark_joblisttag_element);
     }
     landmark_greytags = joblistItem[i].getElementsByClassName('job-list-tag')[0].querySelectorAll('.b-tag--default');
-    console.log("還沒置換內容ㄛ");
-    if( landmark_greytags[ landmark_greytags.length - 1 ].innerText.search('公尺') != -1 ){
-      console.log("有置換內容");
+    if( landmark_greytags[ landmark_greytags.length - 1 ].innerText.search('公尺') == -1 ){
       joblistItem[i].getElementsByClassName('job-list-tag')[0].appendChild(landmarkNewTag);
       landmark_changelink[0].setAttribute('href' , landmark_newJobsource + group + landmark_type);
       ga('send', {
@@ -109,7 +108,7 @@
     
       for(i=landmarkStart; i<landmarkEnd;i+=1){
 
-        var jobNo = joblistItem[i].dataset.jobNo;
+        jobNo = joblistItem[i].dataset.jobNo;
 
         if(jobNo){
           if( typeof( landmarkPocJobNoList_MRT[jobNo] ) != 'undefined' ){
